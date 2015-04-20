@@ -1,0 +1,26 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index
+POST    /person                     controllers.Application.addPerson
+GET     /persons                    controllers.Application.getPersons
+GET     /splash                     controllers.Application.returnFile
+GET     /crash                      controllers.Application.sendFile
+GET     /mash                       controllers.Application.ownFileName
+GET     /bash                       controllers.Application.inlineFile
+GET     /bakka                      controllers.Application.bakka
+GET     /comet                      controllers.Application.comet
+GET     /comet2                     controllers.Application.comet2
+GET     /comet3                     controllers.Application.comet3
+GET     /comet4                     controllers.Application.comet4
+GET     /socket                     controllers.Application.socket
+GET     /socket2                    controllers.Application.socket2
+GET     /socket3                    controllers.Application.socket3
+POST     /jsonvalidate              controllers.Application.jsonvalidate
+POST    /xmlrequest                 controllers.Application.xmlRequest
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
