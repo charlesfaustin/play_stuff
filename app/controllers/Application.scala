@@ -63,7 +63,7 @@ object Application extends Controller {
   helloActor ! Message("okdemdem")
 
 
-  
+
 
 
   def xmlRequest = Action { request =>
@@ -179,7 +179,7 @@ object Application extends Controller {
 
 
   def getPersons = Action {
-  	val persons = DB.query[Person].fetch()
+  	val persons = XDB.query[Person].fetch()
 
   	Ok(Json.toJson(persons))
   }

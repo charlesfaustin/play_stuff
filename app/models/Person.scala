@@ -8,7 +8,7 @@ case class Person(name: String,  email: String, age: Int, eligible: Option[Boole
 object Person {
 
   def create(person: Person){
-    DB.save(person)
+    XDB.save(person)
   }
   
   implicit val personFormat = Json.format[Person]
