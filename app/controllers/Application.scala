@@ -44,6 +44,24 @@ import play.filters.csrf.CSRF
 import play.filters.csrf._
 
 
+//sort by func for scala
+/*
+scala> List("a", "fg", "aaa", "e", "wwwwww").sortBy(r => r.length)
+res18: List[String] = List(a, e, fg, aaa, wwwwww)
+*/
+
+//concantenate strings for cat command
+/*
+theStrings.mkString(" plus whatever inbetween")
+tail object wont have anything after than
+look here too http://langref.org/scala/lists/output/join-the-elements-of-a-list-separated-by-commas
+*/
+
+
+//remove all tags, install with pip install eyeD3
+/*
+ eyeD3 --remove-all  a.mp3
+*/
 
 object Application extends Controller {
 
@@ -180,6 +198,7 @@ object Application extends Controller {
 
   def getPersons = Action {
   	val persons = XDB.query[Person].fetch()
+    println(persons.toList)
 
   	Ok(Json.toJson(persons))
   }
