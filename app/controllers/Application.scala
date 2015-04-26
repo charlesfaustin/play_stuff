@@ -129,6 +129,7 @@ object Application extends Controller {
       //"age" -> number
       "age" -> number(min=0, max=100),
       //"age" -> default(number, 34) //works, but not shown in html, just saved to db
+      //^ do this for the uuid val
       "eligible" -> optional(checked("eligible"))
       //"adate" -> date("yyyy-MM-dd")
   	)(Person.apply)(Person.unapply)
