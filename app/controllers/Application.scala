@@ -28,7 +28,7 @@ import java.util.Date
 
 
 import play.api.libs.concurrent.Execution.Implicits._
-
+import java.io.File
 import scala.concurrent.duration._
 import play.filters.csrf.CSRF
 import play.filters.csrf._
@@ -54,33 +54,6 @@ look here too http://langref.org/scala/lists/output/join-the-elements-of-a-list-
 */
 
 object Application extends Controller {
-
-
-
-//@(personForm: Form[Person])(implicit flash: Flash, request: RequestHeader)
-/*
-
-
-  val personForm: Form[Person] = Form {
-    mapping(
-      //"name" -> text,
-      "name" -> default(nonEmptyText,"Mikey"),
-      "email" -> email,
-      //"age" -> number
-      "age" -> number(min=0, max=100),
-      //"age" -> default(number, 34) //works, but not shown in html, just saved to db
-      //^ do this for the uuid val
-      "eligible" -> optional(checked("eligible"))
-      //"adate" -> date("yyyy-MM-dd")
-    )(Person.apply)(Person.unapply)
-  }
-
-
-
-*/
-
-
-
   
   def index = CSRFAddToken {
 
@@ -97,7 +70,7 @@ object Application extends Controller {
         Action(parse.multipartFormData) { implicit request =>
 
   
-request.body.file("fileUpload").map { file =>
+      request.body.file("fileUpload").map { file =>
       import java.io.File
       val filenamez = file.filename
       val contentType = file.contentType 
@@ -120,7 +93,7 @@ request.body.file("fileUpload").map { file =>
 
 
 
-  def getPersons = Action {
+  def getMusics = Action {
   	val musics = XDB.query[Music].fetch()
     println(musics.toList)
 
@@ -129,13 +102,6 @@ request.body.file("fileUpload").map { file =>
 
 
 
-  /*
-  sendFile better than returnFile, sendfile intitiates
-   download protocol in firefox, returnFile just 
-   opens it in the  browser. also if you save the url 
-   has a hyperlink and right click save as, returnfile
-   doesnt keep the file extension type, sendFile does
-   */
   def sendFile = Action {
     Ok.sendFile(new java.io.File("/Users/Charles/use_your_head.gif"))
   }
