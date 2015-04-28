@@ -1,5 +1,5 @@
 @import helper._
-@(personForm: Form[Person])(implicit flash: Flash, request: RequestHeader)
+
 
 @import helper._
 
@@ -12,99 +12,20 @@
 
 	<ul id="persons"></ul>
 
-	
- @helper.form(routes.Application.addPerson, 'enctype -> "multipart/form-data") {
-    
-    @CSRF.formField
 
-    @helper.inputText(personForm("name"))
-    @helper.inputText(personForm("age"))
-    @helper.inputText(personForm("email"))
-    @helper.checkbox(personForm("eligible"))
-     <input type="file" name="fileUpload" multiple>
-     <b>@flash.get("error")</b>
-
-<br></br>
-   
-    <button>Add Person</button>
-
-<br></br><br></br><br></br><br></br><br></br><br></br><br></br>
-   }
-
-   <script type="text/javascript">
-  var cometMessage = function(event) {
-    console.log('Received event: ' + event)
-  }
-</script>
-
-<iframe src="/comet4"></iframe>
-
-<script type="text/javascript">
-var ws = new WebSocket("ws://localhost:9000/socket3");
-
-function WebSocketTest()
-{
-  
-    
-     // Let us open a web socket
-     
-     /* 
-     ws.onopen = function()
-     {
-        // Web Socket is connected, send data using send()
-        ws.send("Message to send");
-        alert("Message is sent...");
-     };
-     */
-     ws.onmessage = function (evt) 
-     { 
-        var received_msg = evt.data;
-        console.log("Message is received...");
-        console.log(evt.data);
-        $("#persons").append($("<li>").text(evt.data));
-     };
-     ws.onclose = function()
-     { 
-        // websocket is closed.
-        //ws.send("stop");
-        ws.close();
-        //alert("Connection is closed..."); 
-        
-     };
-  
-}
-
-WebSocketTest()
-
-//was doing polling before the scheduled actor
-/*setInterval(
-
-    function () {
-if (ws.readyState!=3)
-
-        {ws.send("bloop");}
-
-
-
-}, 1000); */
-
-
-/* window.onbeforeunload = function() {
-  if (1==1) {
-     //ws.send("stop"); //using this is harmful
-     ws.close();
-  }
- } */
-
- window.addEventListener("beforeunload", function (e) {
+<form method="post" autocomplete="on">
  
-  var confirmationMessage = "\o/";
+      
+      <input type="file" name="fileUpload" multiple>
+       <button>Add Audio</button>
+      
+    </form>
+	
 
-  //(e || window.event).returnValue = confirmationMessage; //Gecko + IE
-  ws.close();
-  //return confirmationMessage;                            //Webkit, Safari, Chrome
-});
-</script>
+
+
+
+
 
 }
 

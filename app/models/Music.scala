@@ -4,13 +4,13 @@ import play.api.libs.json._
 import java.util.Date
 
 //add uuid val
-case class Person(name: String,  email: String, age: Int, eligible: Option[Boolean]) //, adate: Date)
+case class Music(filename: String,  idstring: String) 
 
-object Person {
+object Music {
 
-  def create(person: Person){
-    XDB.save(person)
+  def create(music: Music){
+    XDB.save(music)
   }
   
-  implicit val personFormat = Json.format[Person]
+  implicit val musicFormat = Json.format[Music]
 }
