@@ -1,5 +1,5 @@
 @import helper._
-
+@()y(implicit request: RequestHeader)
 
 @import helper._
 
@@ -8,21 +8,20 @@
 @main("Welcome to Play") {
 
 
-	<script type='text/javascript' src='@routes.Assets.at("javascripts/index.js")'></script>
 
-	<ul id="persons"></ul>
+  <script type='text/javascript' src='@routes.Assets.at("javascripts/index.js")'></script>
+
+  <ul id="persons"></ul>
 
 
-<form method="post" autocomplete="on">
- 
+<form method="post" autocomplete="on" enctype="multipart/form-data">
+ @CSRF.formField
       
       <input type="file" name="fileUpload" multiple>
        <button>Add Audio</button>
       
     </form>
-	
-
-
+  
 
 
 
