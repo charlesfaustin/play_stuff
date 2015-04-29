@@ -32,6 +32,8 @@ import java.io.File
 import scala.concurrent.duration._
 import play.filters.csrf.CSRF
 import play.filters.csrf._
+import sys.process._
+import java.util.Date
 
 
 //sort by func for scala
@@ -58,7 +60,8 @@ object Application extends Controller {
   def index = CSRFAddToken {
 
     Action {  implicit request =>
- 
+
+
     Ok(views.html.index())
 
              }
@@ -69,15 +72,19 @@ object Application extends Controller {
 
         Action(parse.multipartFormData) { implicit request =>
 
+
   
       request.body.file("fileUpload").map { file =>
       import java.io.File
-      val filenamez = file.filename
+      val filenamez = file.filename.replace(" ","_").replace("'","")
       val contentType = file.contentType 
+      //println(contentType.get.getClass)//string
 
       file.ref.moveTo(new File(s"/tmp/picture/$filenamez"))
 
-      val newMusic = models.Music(filenamez,  java.util.UUID.randomUUID.toString) 
+      val filePath = s"/tmp/picture/$filenamez" 
+
+      val newMusic = models.Music(filenamez,  java.util.UUID.randomUUID.toString, filePath) 
       val id = models.Music.create(newMusic)
       Ok("File uploaded")
     }
@@ -95,7 +102,7 @@ object Application extends Controller {
 
   def getMusics = Action {
   	val musics = XDB.query[Music].fetch()
-    println(musics.toList)
+    //println(musics.toList)
 
   	Ok(Json.toJson(musics))
   }
@@ -108,10 +115,44 @@ object Application extends Controller {
 
   /* renames file */
   def ownFileName = Action {
-    Ok.sendFile(
-      content = new java.io.File("/Users/Charles/use_your_head.gif"),
-      fileName = _ => "newfilename.gif"
-      )
+
+
+
+    if (XDB.query[Music].fetch().toList.length > 0 ){
+
+
+     val musics = XDB.query[Music].fetch()
+     
+    val newDate = new Date 
+    val newFile = newDate.toString.replace(" ", "_") + ".mp3"
+    val fileList = musics.toList.map(i => i.filepath).mkString(" ")
+
+    val endFile = "/tmp/results/$newFile"
+
+    println(fileList)
+
+    val shellCmd=  "cat $fileList > /tmp/results/k.mp3"
+    val output = shellCmd.!
+
+
+
+    lazy val c = new java.io.File("/tmp/results/k.mp3")
+    
+        Ok.sendFile(
+
+          content = c,
+          fileName = _ => "k"
+          )
+        }
+          else 
+
+          {
+             Redirect(routes.Application.index)
+
+          }
+
+
+
   }
 
 

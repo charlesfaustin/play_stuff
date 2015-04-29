@@ -5,7 +5,8 @@
 # Home page
 GET     /                           controllers.Application.index
 POST    /                           controllers.Application.addPerson
-GET     /musics                    controllers.Application.getMusics
+GET     /musics                     controllers.Application.getMusics
+GET     /ownfilename                controllers.Application.ownFileName
 
 
 
