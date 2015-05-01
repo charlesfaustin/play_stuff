@@ -121,35 +121,28 @@ object Application extends Controller {
     if (XDB.query[Music].fetch().toList.length > 0 ){
 
 
-     val musics = XDB.query[Music].fetch()
+        val musics = XDB.query[Music].fetch()
      
-    val newDate = new Date 
-    val newFile = newDate.toString.replace(" ", "_") + ".mp3"
-    val fileList = musics.toList.map(i => i.filepath).mkString(" ")
+        val newDate = new Date 
+        val newFile = newDate.toString.replace(" ", "_") + ".mp3"
+        val fileList = musics.toList.map(i => i.filepath).mkString(" ")
 
-    val endFile = "/tmp/results/$newFile"
-
-    println(fileList)
-
-    val shellCmd=  "cat $fileList > /tmp/results/k.mp3"
-    val output = shellCmd.!
-
-
-
-    lazy val c = new java.io.File("/tmp/results/k.mp3")
+        //println(fileList)
+        val shellCmd=  s"sox $fileList  /tmp/results/k.mp3"
+        println(shellCmd)
+        val output = shellCmd.!
+        val c = new java.io.File("/tmp/results/k.mp3")
     
         Ok.sendFile(
 
           content = c,
-          fileName = _ => "k"
+          fileName = _ => "generated_file.mp3"
           )
         }
-          else 
-
-          {
-             Redirect(routes.Application.index)
-
-          }
+        else 
+        {
+            Redirect(routes.Application.index)
+        }
 
 
 
