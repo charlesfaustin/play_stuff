@@ -1,0 +1,14 @@
+current setup blocks whilst file is created. not good.
+so we are gonna hand it off to an actor for background processing
+
+* create new model , call it created_files or something
+* has one string for now , which is the full filepath to the created file
+
+*file is created with akka
+*initial filename is uuid string(already done), an object is created for this as soon as the file is made.
+*its id string will be the same uuid this means the filename can be changed, and still found with the id string
+
+
+********* for later ********
+*template can then do a similar javascript json thing to show the created files available for download
+*maybe do a notification with a websocket so the page doesnt have to be reloaded 
