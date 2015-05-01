@@ -127,11 +127,11 @@ object Application extends Controller {
         val newFile = newDate.toString.replace(" ", "_") + ".mp3"
         val fileList = musics.toList.map(i => i.filepath).mkString(" ")
 
-        //println(fileList)
-        val shellCmd=  s"sox $fileList  /tmp/results/k.mp3"
+        val fileUuid = java.util.UUID.randomUUID.toString
+        val shellCmd=  s"sox $fileList  /tmp/results/$fileUuid.mp3"
         println(shellCmd)
         val output = shellCmd.!
-        val c = new java.io.File("/tmp/results/k.mp3")
+        val c = new java.io.File(s"/tmp/results/$fileUuid.mp3")
     
         Ok.sendFile(
 
