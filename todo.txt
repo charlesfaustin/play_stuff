@@ -2,10 +2,12 @@ current setup blocks whilst file is created. not good.
 so we are gonna hand it off to an actor for background processing
 
 * create new model , call it created_files or something
-* has one string for now , which is the full filepath to the created file
+* one field is the full filepath to the created file
+*other field is a uuid 
+
 
 *file is created with akka
-*initial filename is uuid string(already done), an object is created for this as soon as the file is made.
+*initial filename is uuid string, an object is created for this as soon as the file is made.
 *its id string will be the same uuid this means the filename can be changed, and still found with the id string
 
 

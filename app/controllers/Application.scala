@@ -103,6 +103,9 @@ object Application extends Controller {
         println(shellCmd)
         val output = shellCmd.!
         val c = new java.io.File(s"/tmp/results/$fileUuid.mp3")
+
+        val createdFile = models.CrtdFile(s"$fileUuid.mp3",  java.util.UUID.randomUUID.toString, s"/tmp/results/$fileUuid.mp3") 
+        val crtdid = models.CrtdFile.create(createdFile)
     
         Ok.sendFile(
 

@@ -14,3 +14,15 @@ object Music {
   
   implicit val musicFormat = Json.format[Music]
 }
+
+
+case class CrtdFile(filename: String,  idstring: String, filepath: String)
+
+object CrtdFile {
+
+  def create(crtdfile: CrtdFile){
+    XDB.save(crtdfile)
+  }
+  
+  implicit val crtdfileFormat = Json.format[CrtdFile]
+}
