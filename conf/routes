@@ -6,6 +6,7 @@
 GET     /                           controllers.Application.index
 POST    /                           controllers.Application.addPerson
 GET     /musics                     controllers.Application.getMusics
+GET     /createdfiles               controllers.Application.getCreatedFiles
 GET     /ownfilename                controllers.Application.ownFileName
 
 

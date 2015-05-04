@@ -1,16 +1,33 @@
 current setup blocks whilst file is created. not good.
 so we are gonna hand it off to an actor for background processing
 
-* create new model , call it created_files or something
-* one field is the full filepath to the created file
-*other field is a uuid 
+*make url to download created file
+*url takes uuid argument
+*the file is searched for with that uuid string by the idstring field
+*then the file is returned to the user
 
 
-*file is created with akka
-*initial filename is uuid string, an object is created for this as soon as the file is made.
-*its id string will be the same uuid this means the filename can be changed, and still found with the id string
+*then do akka-based file creation
+*firstly, make a url to a controller actor that send a helloworld message to an actor
+* then take the logic from the ownfilename controller to create the new file
+* then create polling websocket to show all created files instead of the static js i wrote
+* will prolly have to use setinterval
+* each update, will prolly clear the objects in browser and reload them along with any new ones, as im not keeping info
+  about the dates theses files were created.. yet
+
+********* for later ********
+dragula stuff to change the order
+
 
 
 ********* for later ********
-*template can then do a similar javascript json thing to show the created files available for download
+*then later, push based websocket, to push newly created files to browser, if they were made after the page loaded.
+*will require added a date created to the objects, and a date initialised to the controller actor/whatever
+*will prolly use a scheduled action thing to query the db and do the pushing
+*obv this is only done if the websocket connection is still open
+*will have to install jodaTime at this point
+
+********* for later ********
+*template can then do a similar jav
+ascript json thing to show the created files available for download
 *maybe do a notification with a websocket so the page doesnt have to be reloaded 

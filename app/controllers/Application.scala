@@ -80,6 +80,10 @@ object Application extends Controller {
   	Ok(Json.toJson(musics))
   }
 
+  def getCreatedFiles = Action {
+    val createdfiles = XDB.query[CrtdFile].fetch()
+    Ok(Json.toJson(createdfiles))
+  }
 
 
   def sendFile = Action {
@@ -104,6 +108,7 @@ object Application extends Controller {
         val output = shellCmd.!
         val c = new java.io.File(s"/tmp/results/$fileUuid.mp3")
 
+        //maybe change middle value to fileUuid
         val createdFile = models.CrtdFile(s"$fileUuid.mp3",  java.util.UUID.randomUUID.toString, s"/tmp/results/$fileUuid.mp3") 
         val crtdid = models.CrtdFile.create(createdFile)
     
