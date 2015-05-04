@@ -8,6 +8,7 @@ POST    /                           controllers.Application.addPerson
 GET     /musics                     controllers.Application.getMusics
 GET     /createdfiles               controllers.Application.getCreatedFiles
 GET     /ownfilename                controllers.Application.ownFileName
+GET     /serve/:idString            controllers.Application.serve(idString)
 
 
 

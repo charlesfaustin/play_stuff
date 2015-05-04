@@ -6,9 +6,10 @@ import sys.process._
 import play.api.libs.json.Json
 import play.api.mvc.{Controller, Action}
 import play.filters.csrf._
-
+import play.api.cache._
 import models._
 
+import play.api.Play.current
 //sort by func for scala
 /*
 scala> List("a", "fg", "aaa", "e", "wwwwww").sortBy(r => r.length)
@@ -30,11 +31,27 @@ look here too http://langref.org/scala/lists/output/join-the-elements-of-a-list-
 
 object Application extends Controller {
   
-  def index = CSRFAddToken {
+
+  def index2 =  Cached("webpage")  {
 
     Action {  implicit request =>
+    Ok(views.html.index())
+
+             }
+     }
+
+def index3 =  
+
+    Action {  implicit request =>
+    Ok(views.html.index())
+
+             }
+     
 
 
+  def index =  CSRFAddToken  {
+
+    Action {  implicit request =>
     Ok(views.html.index())
 
              }
@@ -127,6 +144,14 @@ object Application extends Controller {
 
   }
 
+  def serve(idString: String) = Action {
+
+    println(idString)
+
+    Ok("File uploaded")
+    Redirect(routes.Application.index)
+
+  }
 
 
   def inlineFile = Action {
