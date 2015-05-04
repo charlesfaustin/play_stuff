@@ -1,40 +1,13 @@
 package controllers
-import akka.actor.PoisonPill
 
-import play.api._
-import play.api.mvc._
-import play.api.data.Form
-import play.api.data.Forms._
-import play.api.libs.json.Json
-import play.api.libs.json._
-import models._
-import play.api.libs.functional.syntax._
-import play.api.libs.concurrent._
-import play.api.libs.concurrent.Akka
-import akka.actor._
-import akka.actor.Actor
-import akka.actor.ActorLogging
-import akka.actor.ActorSystem
-import akka.actor.Props
-import java.nio.channels.ClosedChannelException
-
-import play.api.libs.iteratee._
-import scala.concurrent.ExecutionContext.Implicits.global
-import play.twirl.api.Html
-import play.api.libs.Comet
-import play.api.Play.current
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import java.util.Date
-
-
-import play.api.libs.concurrent.Execution.Implicits._
 import java.io.File
-import scala.concurrent.duration._
-import play.filters.csrf.CSRF
-import play.filters.csrf._
 import sys.process._
-import java.util.Date
 
+import play.api.libs.json.Json
+import play.api.mvc.{Controller, Action}
+import play.filters.csrf._
+
+import models._
 
 //sort by func for scala
 /*
@@ -123,8 +96,6 @@ object Application extends Controller {
 
         val musics = XDB.query[Music].fetch()
      
-        val newDate = new Date 
-        val newFile = newDate.toString.replace(" ", "_") + ".mp3"
         val fileList = musics.toList.map(i => i.filepath).mkString(" ")
 
         val fileUuid = java.util.UUID.randomUUID.toString
