@@ -1,10 +1,7 @@
 current setup blocks whilst file is created. not good.
 so we are gonna hand it off to an actor for background processing
 
-*make url to download created file
-*url takes uuid argument
-*the file is searched for with that uuid string by the idstring field
-*then the file is returned to the user
+
 
 
 *then do akka-based file creation

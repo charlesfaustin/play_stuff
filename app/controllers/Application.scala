@@ -30,24 +30,6 @@ look here too http://langref.org/scala/lists/output/join-the-elements-of-a-list-
 */
 
 object Application extends Controller {
-  
-
-  def index2 =  Cached("webpage")  {
-
-    Action {  implicit request =>
-    Ok(views.html.index())
-
-             }
-     }
-
-def index3 =  
-
-    Action {  implicit request =>
-    Ok(views.html.index())
-
-             }
-     
-
 
   def index =  CSRFAddToken  {
 
@@ -57,26 +39,37 @@ def index3 =
              }
      }
 
+  def serve(idString: String) = Action {
+
+    val artist = XDB.query[CrtdFile].whereEqual("idstring", idString).fetchOne().get
+    val serveFile = artist.filepath
+    val c = new java.io.File(s"$serveFile")
+
+    Ok.sendFile(
+      content = c,
+      fileName = _ => "generated_file.mp3"
+    )
+
+  }
+
 
   def addPerson = CSRFCheck {
 
-        Action(parse.multipartFormData) { implicit request =>
-
-
+      Action(parse.multipartFormData) { implicit request =>
   
-      request.body.file("fileUpload").map { file =>
-      import java.io.File
-      val filenamez = file.filename.replace(" ","_").replace("'","")
-      val contentType = file.contentType 
-      //println(contentType.get.getClass)//string
+        request.body.file("fileUpload").map { file =>
+        import java.io.File
+        val filenamez = file.filename.replace(" ","_").replace("'","")
+        //val contentType = file.contentType 
+        //println(contentType.get.getClass)//string
 
-      file.ref.moveTo(new File(s"/tmp/picture/$filenamez"))
+        file.ref.moveTo(new File(s"/tmp/picture/$filenamez"))
 
-      val filePath = s"/tmp/picture/$filenamez" 
+        val filePath = s"/tmp/picture/$filenamez" 
 
-      val newMusic = models.Music(filenamez,  java.util.UUID.randomUUID.toString, filePath) 
-      val id = models.Music.create(newMusic)
-      Ok("File uploaded")
+        val newMusic = models.Music(filenamez,  java.util.UUID.randomUUID.toString, filePath) 
+        val id = models.Music.create(newMusic)
+        Ok("File uploaded")
     }
 
 
@@ -115,6 +108,9 @@ def index3 =
     if (XDB.query[Music].fetch().toList.length > 0 ){
 
 
+        /*  simple code to ping actor here */
+
+        //OGING INTO ACTOR
         val musics = XDB.query[Music].fetch()
      
         val fileList = musics.toList.map(i => i.filepath).mkString(" ")
@@ -128,6 +124,7 @@ def index3 =
         //maybe change middle value to fileUuid
         val createdFile = models.CrtdFile(s"$fileUuid.mp3",  java.util.UUID.randomUUID.toString, s"/tmp/results/$fileUuid.mp3") 
         val crtdid = models.CrtdFile.create(createdFile)
+        //END OF ACTOR STUFF
     
         Ok.sendFile(
 
@@ -144,14 +141,7 @@ def index3 =
 
   }
 
-  def serve(idString: String) = Action {
 
-    println(idString)
-
-    Ok("File uploaded")
-    Redirect(routes.Application.index)
-
-  }
 
 
   def inlineFile = Action {
