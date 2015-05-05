@@ -1,16 +1,19 @@
-current setup blocks whilst file is created. not good.
-so we are gonna hand it off to an actor for background processing
+
 
 
 
 
 *then do akka-based file creation
-*firstly, make a url to a controller actor that send a helloworld message to an actor
-* then take the logic from the ownfilename controller to create the new file
-* then create polling websocket to show all created files instead of the static js i wrote
-* will prolly have to use setinterval
-* each update, will prolly clear the objects in browser and reload them along with any new ones, as im not keeping info
-  about the dates theses files were created.. yet
+
+*create ONE websocket actor that will handle messages to actors to generate files, push newly created files to browser etc
+
+browser -> websocket actor -> filecreate actor -> websocket actor -> browser
+// I saved an example of passing messages back to actor websockets senders somewhere in the other branch
+
+on page load, one fetch command via websocket to show all currently created files at time of page load
+pushes to browser will add updates
+
+
 
 ********* for later ********
 dragula stuff to change the order
