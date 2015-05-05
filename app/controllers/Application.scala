@@ -72,23 +72,20 @@ object Application extends Controller {
         Ok("File uploaded")
     }
 
-
        Redirect(routes.Application.index)
     
-   
-
       }
 
    }
 
 
-
+   // maybe abstract the two json funcs into one, taking a param
   def getMusics = Action {
   	val musics = XDB.query[Music].fetch()
     //println(musics.toList)
-
   	Ok(Json.toJson(musics))
   }
+
 
   def getCreatedFiles = Action {
     val createdfiles = XDB.query[CrtdFile].fetch()
@@ -96,14 +93,8 @@ object Application extends Controller {
   }
 
 
-  def sendFile = Action {
-    Ok.sendFile(new java.io.File("/Users/Charles/use_your_head.gif"))
-  }
 
-  /* renames file */
   def ownFileName = Action {
-
-
 
     if (XDB.query[Music].fetch().toList.length > 0 ){
 
@@ -142,14 +133,6 @@ object Application extends Controller {
   }
 
 
-
-
-  def inlineFile = Action {
-    Ok.sendFile(
-      content = new java.io.File("/Users/Charles/use_your_head.gif"),
-      inline = true
-      )
-  }
 
 
 }
