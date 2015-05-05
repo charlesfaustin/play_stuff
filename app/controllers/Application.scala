@@ -6,10 +6,8 @@ import sys.process._
 import play.api.libs.json.Json
 import play.api.mvc.{Controller, Action}
 import play.filters.csrf._
-import play.api.cache._
 import models._
 
-import play.api.Play.current
 //sort by func for scala
 /*
 scala> List("a", "fg", "aaa", "e", "wwwwww").sortBy(r => r.length)
