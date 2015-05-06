@@ -1,5 +1,11 @@
+Do the websocket examples from before one by one, we will use an actor websocket eventually to receive messages back
 
-*add  link/button to start background processing, and "flashing message" (with websockets tho) to let user know the processing is underway
+link to parse JSON with javascript
+http://www.w3schools.com/json/json_eval.asp
+
+
+******THEN*******
+*add  websocket action to start background processing, and "flashing message" (with websockets tho) to let user know the processing is underway
 
 *create ONE websocket actor that will handle messages to actors to generate files, push newly created files to browser etc
 
