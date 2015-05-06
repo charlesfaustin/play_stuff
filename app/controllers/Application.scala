@@ -7,7 +7,10 @@ import play.api.libs.json.Json
 import play.api.mvc.{Controller, Action}
 import play.filters.csrf._
 import models._
-
+import actors._
+import play.api.libs.concurrent.Akka
+import play.api.Play.current
+import akka.actor.Props
 //sort by func for scala
 /*
 scala> List("a", "fg", "aaa", "e", "wwwwww").sortBy(r => r.length)
@@ -29,6 +32,9 @@ look here too http://langref.org/scala/lists/output/join-the-elements-of-a-list-
 
 object Application extends Controller {
 
+val myActor = Akka.system.actorOf(Props[FileServeActor], name = "fileserveactor")
+
+
   def index =  CSRFAddToken  {
 
     Action {  implicit request =>
@@ -36,6 +42,13 @@ object Application extends Controller {
 
              }
      }
+
+
+
+  def backgroundCreate = Action {
+    myActor ! Message("Go")
+    Redirect(routes.Application.index)
+  }
 
   def serve(idString: String) = Action {
 
@@ -90,45 +103,6 @@ object Application extends Controller {
     Ok(Json.toJson(createdfiles))
   }
 
-
-
-  def ownFileName = Action {
-
-    if (XDB.query[Music].fetch().toList.length > 0 ){
-
-
-        /*  simple code to ping actor here */
-
-        //OGING INTO ACTOR
-        val musics = XDB.query[Music].fetch()
-     
-        val fileList = musics.toList.map(i => i.filepath).mkString(" ")
-
-        val fileUuid = java.util.UUID.randomUUID.toString
-        val shellCmd=  s"sox $fileList  /tmp/results/$fileUuid.mp3"
-        println(shellCmd)
-        val output = shellCmd.!
-        val c = new java.io.File(s"/tmp/results/$fileUuid.mp3")
-
-        //maybe change middle value to fileUuid
-        val createdFile = models.CrtdFile(s"$fileUuid.mp3",  java.util.UUID.randomUUID.toString, s"/tmp/results/$fileUuid.mp3") 
-        val crtdid = models.CrtdFile.create(createdFile)
-        //END OF ACTOR STUFF
-    
-        Ok.sendFile(
-
-          content = c,
-          fileName = _ => "generated_file.mp3"
-          )
-        }
-        else 
-        {
-            Redirect(routes.Application.index)
-        }
-
-
-
-  }
 
 
 

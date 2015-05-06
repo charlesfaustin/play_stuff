@@ -1,10 +1,4 @@
 
-
-
-
-*checked create files for metadata, there shouldnt be any (for now)
-*then do akka-based file creation
-
 *create ONE websocket actor that will handle messages to actors to generate files, push newly created files to browser etc
 
 browser -> websocket actor -> filecreate actor -> websocket actor -> browser
