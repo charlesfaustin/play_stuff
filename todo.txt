@@ -1,4 +1,6 @@
 
+*add  link/button to start background processing, and "flashing message" (with websockets tho) to let user know the processing is underway
+
 *create ONE websocket actor that will handle messages to actors to generate files, push newly created files to browser etc
 
 browser -> websocket actor -> filecreate actor -> websocket actor -> browser
