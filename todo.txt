@@ -3,6 +3,7 @@ Do the websocket examples from before one by one, we will use an actor websocket
 link to parse JSON with javascript
 http://www.w3schools.com/json/json_eval.asp
 
+look at PingPong example on computer for how to send messages back to sender
 
 ******THEN*******
 *add  websocket action to start background processing, and "flashing message" (with websockets tho) to let user know the processing is underway
@@ -23,13 +24,48 @@ dragula stuff to change the order
 
 
 ********* for later ********
-*then later, push based websocket, to push newly created files to browser, if they were made after the page loaded.
+*then later, push based websocket, to push info of newly created files to browser, if they were made after the page loaded.
 *will require added a date created to the objects, and a date initialised to the controller actor/whatever
 *will prolly use a scheduled action thing to query the db and do the pushing
 *obv this is only done if the websocket connection is still open
 *will have to install jodaTime at this point
 
 ********* for later ********
-*template can then do a similar jav
-ascript json thing to show the created files available for download
+*template can then do a similar javascript 
+json thing to show the created files available for download
 *maybe do a notification with a websocket so the page doesnt have to be reloaded 
+
+********* for later ********
+AJAX STUFF
+
+http://techminded.net/blog/ajax-file-upload-in-playframework.html
+http://blog.knoldus.com/2014/10/07/tutorial-ajax-calling-in-play-framework-2-3-4/
+http://slapking.org/play-framework-2-uploading-files-with-jquery/
+
+the existing addPerson func (minus the redirect) may be enough for the server side ajax stuff
+might just need to do the ajax stuff, look at the links above for more info
+https://www.playframework.com/documentation/2.3.x/ScalaFileUpload
+^^ found the ajax stuff in the docs, finally.
+
+more useful info below
+http://tutorialzine.com/2013/05/mini-ajax-file-upload-form/
+http://blog.teamtreehouse.com/uploading-files-ajax  
+
+	 DEALING WITH AJAX RESPONSE
+	 --------------------------
+	 http://stackoverflow.com/questions/14674999/jquery-fileupload-doesnt-trigger-done
+	 http://stackoverflow.com/questions/18104202/parsing-a-json-response-after-a-file-upload-with-jquery
+	 http://stackoverflow.com/questions/166221/how-can-i-upload-files-asynchronously
+	 http://codular.com/javascript-ajax-file-upload-with-progress
+
+
+********* for later ********
+look into wrapping the ajax stuff in csrf
+go back to https://www.playframework.com/documentation/2.3.x/ScalaCsrf
+
+
+
+
+
+
+///
