@@ -18,6 +18,7 @@
 
   <ul id="musicid"></ul>
 
+
    <ul id="createdfiles" style="float: right;"></ul>
 
 
@@ -31,7 +32,37 @@
   
 <p id="demo"></p>
 
+<script type="text/javascript">
+var ws = new WebSocket("ws://localhost:9000/socket");
 
+function WebSocketTest()
+{
+  
+    
+     ws.onmessage = function (evt) 
+     { 
+        var received_msg = evt.data;
+        var obj = JSON.parse(evt.data);
+        var fgh = obj.name;
+        alert(fgh);
+        console.log("Message is received...");
+        console.log(evt.data);
+        $("#persons").append($("<li>").text(evt.data));
+     };
+     ws.onclose = function()
+     { 
+       
+        ws.close();
+       
+        
+     };
+  
+}
+
+WebSocketTest()
+
+
+</script>
 
 }
 
