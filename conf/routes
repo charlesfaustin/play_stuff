@@ -8,7 +8,7 @@ POST    /                           controllers.Application.addPerson
 GET     /musics                     controllers.Application.getMusics
 GET     /createdfiles               controllers.Application.getCreatedFiles
 GET     /serve/:idString            controllers.Application.serve(idString)
-GET     /backcreate                 controllers.Application.backgroundCreate
+GET     /socket                     controllers.Application.socket
 
 
 

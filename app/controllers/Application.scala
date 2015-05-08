@@ -11,9 +11,7 @@ import actors._
 import play.api.libs.concurrent.Akka
 import play.api.Play.current
 import akka.actor.Props
-import play.api.libs.iteratee._
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.libs.json.{JsNull,Json,JsString,JsValue}
+
 //sort by func for scala
 /*
 scala> List("a", "fg", "aaa", "e", "wwwwww").sortBy(r => r.length)
@@ -47,30 +45,13 @@ val myActor = Akka.system.actorOf(Props[FileServeActor], name = "fileserveactor"
      }
 
 
-
-  def socket = WebSocket.using[JsValue] { request =>
-
-      //log events to scala console
-      val in = Iteratee.foreach[JsValue](println).map { _ =>
-        println("Disconnected")
-      }
-
-      val jf: JsValue = Json.obj(
-         "name" -> "Watership Down")
-      //send a single hello! message
-      val out = Enumerator(jf)
-      //http://stackoverflow.com/questions/11768221/firefox-websocket-security-issue
-
-      (in, out)
-
+ def socket = WebSocket.acceptWithActor[String,String] { request =>  out =>
+    MyWebSocketActor.props(out)
   }
 
 
 
-  def backgroundCreate = Action {
-    myActor ! Message("Go")
-    Redirect(routes.Application.index)
-  }
+
 
   def serve(idString: String) = Action {
 
