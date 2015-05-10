@@ -56,7 +56,13 @@ object MyWebSocketActor{
 
   class MyWebSocketActor(out: ActorRef) extends Actor {
  
-   val FileActor = Akka.system.actorOf(Props[FileServeActor], name = "fileactor")
+   val FileActor = Akka.system.actorOf(Props[FileServeActor])
+
+
+    override def postStop() = {
+      //this is to test the actor stops if the websocket on the client side is closed
+      println("its stopped, no mem leak")
+      }
 
 
     def receive = {

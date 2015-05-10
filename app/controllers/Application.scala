@@ -33,7 +33,7 @@ look here too http://langref.org/scala/lists/output/join-the-elements-of-a-list-
 
 object Application extends Controller {
 
-val myActor = Akka.system.actorOf(Props[FileServeActor], name = "fileserveactor")
+
 
 
   def index =  CSRFAddToken  {

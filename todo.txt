@@ -1,34 +1,10 @@
 
 
-******THEN*******
-*add  websocket action to start background processing, and "flashing message" (with websockets tho) to let user know the processing is underway
-
-*create ONE websocket actor that will handle messages to actors to generate files, push newly created files to browser etc
-
-browser -> websocket actor -> filecreate actor -> websocket actor -> browser
-// I saved an example of passing messages back to actor websockets senders somewhere in the other branch
-
-on page load, one fetch command via websocket to show all currently created files at time of page load
-pushes to browser will add updates
-
-
-
 ********* for later ********
 dragula stuff to change the order
 
 
 
-********* for later ********
-*then later, push based websocket, to push info of newly created files to browser, if they were made after the page loaded.
-*will require added a date created to the objects, and a date initialised to the controller actor/whatever
-*will prolly use a scheduled action thing to query the db and do the pushing
-*obv this is only done if the websocket connection is still open
-*will have to install jodaTime at this point
-
-********* for later ********
-*template can then do a similar javascript 
-json thing to show the created files available for download
-*maybe do a notification with a websocket so the page doesnt have to be reloaded 
 
 ********* for later ********
 AJAX STUFF

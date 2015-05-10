@@ -15,6 +15,12 @@
  <script type='text/javascript' src='@routes.Assets.at("javascripts/fileupinfo.js")'></script>
   <script type='text/javascript' src='@routes.Assets.at("javascripts/index.js")'></script>
    <script type='text/javascript' src='@routes.Assets.at("javascripts/createdfiles.js")'></script>
+   <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/main.css")'>
+
+
+   <div class="hidethis header-cont" id="thishdr">
+    <div><p>File generation has started ...</p></div>
+</div>
 
   <ul id="musicid"></ul>
 
@@ -32,43 +38,49 @@
   
 <p id="demo"></p>
 
+<br></br>
+<br></br>
+<br></br>
+<a class="btn" onclick="myFunction()">Click me to generate</a>
+
 <script type="text/javascript">
 var ws = new WebSocket("ws://localhost:9000/socket");
 
 function WebSocketTest()
 {
-  
-    
-     ws.onmessage = function (evt) 
-     { 
-        
+    ws.onmessage = function (evt){ 
         var obj = JSON.parse(evt.data);
-        //var fgh = obj.name;
-        //alert(fgh);
-
         if(obj.hasOwnProperty('idstring')){
+            $("#createdfiles").append($("<li class='bolding'>").text(obj.idstring));
+            $("#createdfiles").append($("<b>").append($("<a href=/serve/" + obj.idstring + " >").text("download ")));
+        }
+    };
 
-   $("#createdfiles").append($("<li>").text(obj.idstring));
-   $("#createdfiles").append($("<b>").append($("<a href=/serve/" + obj.idstring + " >").text("download ")));
-    
-
-		}
-        
-    
-     };
-     ws.onclose = function()
-     { 
-       
-        ws.close();
-       
-        
-     };
-  
+    ws.onclose = function(){  
+        ws.close();         
+    }; 
 }
 
 WebSocketTest()
 
 
+function myFunction(){
+  ws.send("serve")
+  $("#thishdr").removeClass("hidethis");
+  setTimeout(function()   {$("#thishdr").addClass("hidethis")}   ,3000)
+}
+
+
+ /*window.addEventListener("beforeunload", function (e) {
+ 
+  var confirmationMessage = "\o/";
+
+  (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+  ws.close();
+  return confirmationMessage;
+  console.log(confirmationMessage);                            //Webkit, Safari, Chrome
+  
+}); */
 </script>
 
 }
