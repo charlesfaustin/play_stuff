@@ -32,9 +32,10 @@ class FileServeActor extends Actor {
           val c = new java.io.File(s"/tmp/results/$fileUuid.mp3")
 
           //maybe change middle value to fileUuid
-          val createdFile = models.CrtdFile(s"$fileUuid.mp3",  java.util.UUID.randomUUID.toString, s"/tmp/results/$fileUuid.mp3") 
+          val createdFile = models.CrtdFile(s"$fileUuid.mp3",  fileUuid, s"/tmp/results/$fileUuid.mp3") 
           val crtdid = models.CrtdFile.create(createdFile)
-          sender ! DoneMessage
+          sender ! DoneMessage(s""" { "idstring" : "$fileUuid" }""")
+          //add string field to done message, create text that can be converted into json
 
         } else {
             sender ! NoFilesMessage
@@ -60,10 +61,15 @@ object MyWebSocketActor{
 
     def receive = {
       case "serve" =>      
-        out ! ("I received your message")
+        //out ! ("I received your message")
+
+        /*^^ will send out json parsable objct
+        to let user know the data is being processed*/
         FileActor ! ServeMessage
-      case DoneMessage =>
+      case DoneMessage(msg) =>
         println("pingback")
+        println(msg)
+        out ! msg
         // add out ! stuff to update browser of file creation finising
       case NoFilesMessage =>
         println("no files")
@@ -79,7 +85,7 @@ object MyWebSocketActor{
 
 
 case object ServeMessage
-case object DoneMessage
+case class DoneMessage(msg: String)
 case object NoFilesMessage
 
 

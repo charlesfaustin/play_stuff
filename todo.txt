@@ -1,9 +1,4 @@
-Do the websocket examples from before one by one, we will use an actor websocket eventually to receive messages back
 
-link to parse JSON with javascript
-http://www.w3schools.com/json/json_eval.asp
-
-look at PingPong example on computer for how to send messages back to sender
 
 ******THEN*******
 *add  websocket action to start background processing, and "flashing message" (with websockets tho) to let user know the processing is underway

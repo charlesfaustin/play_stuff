@@ -46,6 +46,7 @@ val myActor = Akka.system.actorOf(Props[FileServeActor], name = "fileserveactor"
 
 
  def socket = WebSocket.acceptWithActor[String,String] { request =>  out =>
+    println(out)
     MyWebSocketActor.props(out)
   }
 
