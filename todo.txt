@@ -1,5 +1,13 @@
+http://rubaxa.github.io/Sortable/
+https://github.com/RubaXa/Sortable
 
 
+http://www.webreference.com/programming/javascript/mk/column2/index.html
+
+http://css.maxdesign.com.au/listamatic/horizontal01.htm
+
+
+//google search "drag and drop javascript" after
 ********* for later ********
 dragula stuff to change the order
 
