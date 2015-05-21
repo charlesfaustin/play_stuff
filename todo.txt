@@ -1,15 +1,25 @@
+*********SORTABLE STUFF *******
 http://rubaxa.github.io/Sortable/
 https://github.com/RubaXa/Sortable
 
+http://rubaxa.github.io/Sortable/st/app.js
 
+http://rubaxa.github.io/jquery.fileapi/  ##### file api , automatic upload stuff
 http://www.webreference.com/programming/javascript/mk/column2/index.html
 
 http://css.maxdesign.com.au/listamatic/horizontal01.htm
+********************************
 
 
-//google search "drag and drop javascript" after
-********* for later ********
-dragula stuff to change the order
+
+*********NEXT************
+
+- remove the 'only put section' from the page
+- in the html,only show the first 4 chracters from the uuid, the strings are too long
+- create js to detect the order of the files in the selected section
+- an array of uuids will then be passed to the server in JSON format
+
+
 
 ********* for later ********
 
