@@ -14,8 +14,7 @@ http://css.maxdesign.com.au/listamatic/horizontal01.htm
 
 *********NEXT************
 
-- remove the 'only put section' from the page
-- in the html,only show the first 4 chracters from the uuid, the strings are too long
+
 - create js to detect the order of the files in the selected section
 - an array of uuids will then be passed to the server in JSON format
 

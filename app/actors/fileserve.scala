@@ -10,6 +10,8 @@ import sys.process._
 import play.api.libs.concurrent.Akka
 import play.api.Play.current
 import akka.actor.Props
+import play.api.libs.json._
+import scala.collection.mutable.ListBuffer
 
 case class Message(msg: String)
 
@@ -17,13 +19,19 @@ case class Message(msg: String)
 class FileServeActor extends Actor {
 
   def receive = {
-	case ServeMessage => {
+	case ServeMessage(songList) => {
         println("starting...")
 
+        /* val hehe = songList.map(i => XDB.query[CrtdFile].whereEqual("idstring", i).fetchOne().get )
+        println(hehe) */
 
-        if (XDB.query[Music].fetch().toList.length > 0 ){
-		  val musics = XDB.query[Music].fetch()
-          val fileList = musics.toList.map(i => i.filepath).mkString(" ")
+
+        if (songList.nonEmpty ){
+
+
+          val hehe = songList.map(i => XDB.query[Music].whereEqual("idstring", i).fetchOne().get )
+
+          val fileList = hehe.toList.map(i => i.filepath).mkString(" ")
 
           val fileUuid = java.util.UUID.randomUUID.toString
           val shellCmd=  s"sox $fileList  /tmp/results/$fileUuid.mp3"
@@ -31,17 +39,21 @@ class FileServeActor extends Actor {
           val output = shellCmd.!
           val c = new java.io.File(s"/tmp/results/$fileUuid.mp3")
 
-          //maybe change middle value to fileUuid
+
           val createdFile = models.CrtdFile(s"$fileUuid.mp3",  fileUuid, s"/tmp/results/$fileUuid.mp3") 
           val crtdid = models.CrtdFile.create(createdFile)
           sender ! DoneMessage(s""" { "idstring" : "$fileUuid" }""")
-          //add string field to done message, create text that can be converted into json
 
-        } else {
+
+          } else {
             sender ! NoFilesMessage
             println("no files")
         }
-	}
+
+        
+	 
+
+          }
 	case _ =>
       println("que?")
       
@@ -66,21 +78,19 @@ object MyWebSocketActor{
 
 
     def receive = {
-      case "serve" =>      
-        //out ! ("I received your message")
 
-        /*^^ will send out json parsable objct
-        to let user know the data is being processed*/
-        FileActor ! ServeMessage
       case DoneMessage(msg) =>
-        println("pingback")
-        println(msg)
         out ! msg
-        // add out ! stuff to update browser of file creation finising
+
       case NoFilesMessage =>
         println("no files")
         //add outstuff to handle no files being available to use
         //should prolly add server side validation to save server resources
+      case jsonstring: String =>
+        val json: JsValue = Json.parse(jsonstring)
+        val buf = (json \ "music" \\ "song").map(_.as[String])
+        FileActor ! ServeMessage(buf)
+
       case _ =>
         println("ok")
 
@@ -90,7 +100,7 @@ object MyWebSocketActor{
   }
 
 
-case object ServeMessage
+case class ServeMessage(tunes: Seq[String])
 case class DoneMessage(msg: String)
 case object NoFilesMessage
 
