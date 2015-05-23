@@ -34,15 +34,15 @@ class FileServeActor extends Actor {
           val fileList = hehe.toList.map(i => i.filepath).mkString(" ")
 
           val fileUuid = java.util.UUID.randomUUID.toString
-          val shellCmd=  s"sox $fileList  /tmp/results/$fileUuid.mp3"
+          val shellCmd=  s"sox $fileList  /Users/Charles/seven/hey/public/crtd/$fileUuid.mp3"
 
           val output = shellCmd.!
-          val c = new java.io.File(s"/tmp/results/$fileUuid.mp3")
+          val c = new java.io.File(s"/Users/Charles/seven/hey/public/crtd/$fileUuid.mp3")
 
 
-          val createdFile = models.CrtdFile(s"$fileUuid.mp3",  fileUuid, s"/tmp/results/$fileUuid.mp3") 
+          val createdFile = models.CrtdFile(s"$fileUuid.mp3",  fileUuid, s"/Users/Charles/seven/hey/public/crtd/$fileUuid.mp3") 
           val crtdid = models.CrtdFile.create(createdFile)
-          sender ! DoneMessage(s""" { "idstring" : "$fileUuid" }""")
+          sender ! DoneMessage(s""" { "filename" : "$fileUuid.mp3" }""")
 
 
           } else {
@@ -81,6 +81,7 @@ object MyWebSocketActor{
 
       case DoneMessage(msg) =>
         out ! msg
+        println("serverside done")
 
       case NoFilesMessage =>
         println("no files")

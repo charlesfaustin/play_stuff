@@ -15,28 +15,42 @@
    <script type='text/javascript' src='@routes.Assets.at("javascripts/createdfiles.js")'></script>
    <script type='text/javascript' src='http://rubaxa.github.io/Sortable/Sortable.js'></script>
    <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/main.css")'>
+   <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
 
 
-
-
-
-
-
-
- 
-
-
-   <div class="hidethis header-cont" id="thishdr">
+   <div class="hidethis header-cont " id="thishdr">
     <div><p>File generation has started ...</p></div>
     </div>
 
-  <ul id="musicid"></ul>
 
 
-   <ul id="createdfiles" style="float: right;"></ul>
 
 
-<form method="post" autocomplete="on" enctype="multipart/form-data">
+<h1 style="font-family: 'Fjalla One', sans-serif;font-size: 100px; color:#FFF"> slyck. </h1>
+
+<div class="centering">
+
+<div class="tagline">
+    <img src="@routes.Assets.at("images/Cloud-Music-64.png")"></img> 
+    <span class="caption">Upload</span>
+</div>
+
+<div class="tagline">
+    <img src="@routes.Assets.at("images/Record-Player-64.png")"></img> 
+    <span class="caption">Create</span>
+</div>
+
+<div class="tagline">
+    <img src="@routes.Assets.at("images/Download-Computer-64.png")"></img> 
+    <span class="caption">Download</span>
+</div>
+
+</div>
+
+<div class="centering">
+
+<form style="padding-top:20px" method="post" autocomplete="on" enctype="multipart/form-data">
  @CSRF.formField
       
       <input id="myFile" type="file" name="fileUpload" multiple> <!-- onchange="myFunction()"> -->
@@ -48,39 +62,49 @@
 
 <br></br>
 
-<a class="btn" onclick="myFunction2()">Click me to generate</a>
+<a class="btn" onclick="myFunction2()">Click me to generate files</a>
+
+</div>
 
 
 
 
-<div class="container" style="margin-top: 100px;">
+<div class="container centering" style="margin-top: 70px;">
+
+
     <div id="advanced" style="margin-left: 30px;">
-      <div><div data-force="5" class="layer title title_xl">Files to be created</div></div>
-
-      <div style="width: 40%; float: left; margin-top: 15px; margin-left: 10px">
-        <div class="block__list-title">drag here & order</div>
-        <ul id="advanced-1">
-           <li></li>
-         
-        </ul>
-      </div>
-
-      <div style="width: 40%; float: left; margin-top: 15px; margin-left: 10px" class="block__list block__list_words">
-        <div class="block__list-title">Uploaded files</div>
-        <ul id="advanced-2">
           
-        </ul>
-      </div>
+
+          <div style="width: 40%; float: left; margin-top: 15px; margin-left: 10px">
+            <div><div data-force="5" class="layer title title_xl">Files to be created</div></div>
+            <div class="block__list-title" style="margin-top:10px">drag here & order</div>
+              <ul id="advanced-1"  class="files" style="float:left; width:95%">
+               
+         
+              </ul>
+            </div>
+          </div>
+
+
+
+          <div style="width: 40%; float: left; margin-top: 15px; margin-left: 10px" >
+            <div><div data-force="5" class="layer title title_xl">Uploaded Files</div></div>
+            <div class="block__list-title" style="margin-top:10px">drag from here</div>
+              <ul id="advanced-2" class="files">
+                
+              </ul>
+            </div>
+          </div>
 
      
    
 
-      <div style="clear: both"></div>
+          <div style="clear: both"></div>
     </div>
-  </div>
+</div>
 
- <div> CREATED FILES</div>
-        <ul id="advanced-3">
+       <div class="centering" style="font-family: 'Fjalla One', sans-serif;font-size: 80px; color:#FFF"> CREATED FILES</div>
+        <ul style="padding-left:30px" id="advanced-3">
            
          
         </ul>
@@ -91,12 +115,6 @@
 <br></br>
 <br></br>
 
-
- <audio controls>
-  
-  <source src="/assets/ms/devlish.mp3" type="audio/mpeg">
-Your browser does not support the audio element.
-</audio> 
 
 
 
@@ -110,8 +128,9 @@ function WebSocketStart()
 {
     ws.onmessage = function (evt){ 
         var obj = JSON.parse(evt.data);
-        if(obj.hasOwnProperty('idstring')){
-            $("#advanced-3").append($("<li class='bolding'>").text(obj.idstring.substring(0,4) + "..."));          
+        if(obj.hasOwnProperty('filename')){
+            console.log('yhhhh');
+            $("#advanced-3").append($("<audio controls>").append($("<source src=/assets/crtd/" + obj.filename + " >")));         
         }
     };
 
@@ -168,6 +187,9 @@ var sortable3 = new Sortable(fel, {
 
 </script>
 
+<style>
+
+</style>
 
 }
 

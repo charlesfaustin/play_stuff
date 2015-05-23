@@ -75,12 +75,10 @@ object Application extends Controller {
         request.body.file("fileUpload").map { file =>
         import java.io.File
         val filenamez = file.filename.replace(" ","_").replace("'","")
-        //val contentType = file.contentType 
-        //println(contentType.get.getClass)//string
 
-        file.ref.moveTo(new File(s"/tmp/picture/$filenamez"))
+        file.ref.moveTo(new File(s"/Users/Charles/seven/hey/public/up/$filenamez"))
 
-        val filePath = s"/tmp/picture/$filenamez" 
+        val filePath = s"/Users/Charles/seven/hey/public/up/$filenamez" 
 
         val newMusic = models.Music(filenamez,  java.util.UUID.randomUUID.toString, filePath) 
         val id = models.Music.create(newMusic)
