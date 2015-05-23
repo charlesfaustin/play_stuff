@@ -15,11 +15,20 @@ http://css.maxdesign.com.au/listamatic/horizontal01.htm
 *********NEXT************
 
 
-- create js to detect the order of the files in the selected section
-- an array of uuids will then be passed to the server in JSON format
+audio payer
+http://www.w3schools.com/html/tryit.asp?filename=tryhtml5_audio_all
+^^get created audio working with standard audio tags first
+
+move the file upload to the public folder, then you can create urls to
+directly serve the mo3s to audio players, like >>> GET     /assets/*file 
+check the ms folder in public
+http://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_av_met_play_pause
 
 
+js to start audio/video http://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_av_met_play_pause
 
+hide default audio controls http://stackoverflow.com/questions/5697724/hide-html5-audio-controls
+^^ will represent audio files with my own custom button
 ********* for later ********
 
 
