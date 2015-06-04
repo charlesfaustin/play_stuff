@@ -3,6 +3,9 @@ package controllers
 import java.io.File
 import sys.process._
 
+import com.amazonaws.services.s3.AmazonS3Client
+import com.amazonaws.auth.BasicAWSCredentials
+
 import play.api.libs.json.Json
 import play.api.mvc.{Controller, Action, WebSocket}
 import play.filters.csrf._
@@ -39,6 +42,18 @@ object Application extends Controller {
   def index =  CSRFAddToken  {
 
     Action {  implicit request =>
+
+    val bucketName = "cfgplaytest"
+    val fileToUpload = new File("/Users/Charles/xcv.txt")
+
+    val AWS_ACCESS_KEY = ""
+    val AWS_SECRET_KEY = ""
+
+    val yourAWSCredentials = new BasicAWSCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY)
+    val amazonS3Client = new AmazonS3Client(yourAWSCredentials)
+
+    amazonS3Client.putObject(bucketName, java.util.UUID.randomUUID.toString, fileToUpload)
+
     Ok(views.html.index())
 
              }
