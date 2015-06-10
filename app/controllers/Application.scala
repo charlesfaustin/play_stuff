@@ -90,6 +90,9 @@ object Application extends Controller {
             move them to. compose this into different sensible functions.
 
             The local filemove func will be in a separate object
+
+            diff buckets for initial uploads and combined uploads, function will take vars to put files
+            in appropiate bucket
         */
 
         //unix gets funny with empty spaces
