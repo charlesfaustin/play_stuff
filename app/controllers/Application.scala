@@ -93,6 +93,8 @@ object Application extends Controller {
 
             diff buckets for initial uploads and combined uploads, function will take vars to put files
             in appropiate bucket
+
+            MOVE AWS CREDENTIALS INTO SCALA FILE OUTSIDE OF SOURCE CONTROL
         */
 
         //unix gets funny with empty spaces
@@ -106,8 +108,9 @@ object Application extends Controller {
         val filePath = "https://s3-%s.amazonaws.com/%s/%s".format(s3region, bucketName, filenames)
         val newMusic = models.Music(localFilename,  java.util.UUID.randomUUID.toString, filePath) 
 
-        val AWS_ACCESS_KEY = "AKIAIPLXXDZD2XNDCFBQ"
-        val AWS_SECRET_KEY = "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"
+        val AWS_ACCESS_KEY = ""
+        val AWS_SECRET_KEY = ""
+        //MOVE AWS CREDENTIALS INTO SCALA FILE OUTSIDE OF SOURCE CONTROL
 
         val yourAWSCredentials = new BasicAWSCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY)
         val amazonS3Client = new AmazonS3Client(yourAWSCredentials)
