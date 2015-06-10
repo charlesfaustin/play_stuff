@@ -43,16 +43,9 @@ object Application extends Controller {
 
     Action {  implicit request =>
 
-    val bucketName = "cfgplaytest"
-    val fileToUpload = new File("/Users/Charles/xcv.txt")
-
-    val AWS_ACCESS_KEY = ""
-    val AWS_SECRET_KEY = ""
-
-    val yourAWSCredentials = new BasicAWSCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY)
-    val amazonS3Client = new AmazonS3Client(yourAWSCredentials)
-
-    amazonS3Client.putObject(bucketName, java.util.UUID.randomUUID.toString, fileToUpload)
+    //write down in the actor code the steps to make the changes
+    //look at future stuff, and waiting for all of them to finish
+    //just do initial file upload first
 
     Ok(views.html.index())
 
@@ -88,14 +81,39 @@ object Application extends Controller {
       Action(parse.multipartFormData) { implicit request =>
   
         request.body.file("fileUpload").map { file =>
-        import java.io.File
-        val filenamez = file.filename.replace(" ","_").replace("'","")
 
-        file.ref.moveTo(new File(s"/Users/Charles/seven/hey/public/up/$filenamez"))
+        /*  turn this into an aws object thatll be imported
+            there will be global aws setting veriables, then a function that takes the file,
+            and uploads it. much neater.
 
-        val filePath = s"/Users/Charles/seven/hey/public/up/$filenamez" 
+            also, separate functions to move files, global variable as the folder path to
+            move them to. compose this into different sensible functions.
 
-        val newMusic = models.Music(filenamez,  java.util.UUID.randomUUID.toString, filePath) 
+            The local filemove func will be in a separate object
+        */
+
+        //unix gets funny with empty spaces
+        val localFilename = file.filename.replace(" ","_").replace("'","")
+
+        //duplication of strings, tidy up into a reusable val
+        file.ref.moveTo(new File(s"/Users/Charles/seven/hey/public/up/$localFilename"))
+        val filenames = java.util.UUID.randomUUID.toString + ".mp3"
+        val bucketName = "cfgplaytest"
+        val s3region = "eu-west-1"
+        val filePath = "https://s3-%s.amazonaws.com/%s/%s".format(s3region, bucketName, filenames)
+        val newMusic = models.Music(localFilename,  java.util.UUID.randomUUID.toString, filePath) 
+
+        val AWS_ACCESS_KEY = "AKIAIPLXXDZD2XNDCFBQ"
+        val AWS_SECRET_KEY = "yLZXw+fRWGjwpeimS5e59wtfOhZF8vjci1SwuXgo"
+
+        val yourAWSCredentials = new BasicAWSCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY)
+        val amazonS3Client = new AmazonS3Client(yourAWSCredentials)
+        //http://havecamerawilltravel.com/photographer/how-allow-public-access-amazon-bucket
+
+        val newFile = new File(s"/Users/Charles/seven/hey/public/up/$localFilename")
+        amazonS3Client.putObject(bucketName, filenames, newFile)
+
+
         val id = models.Music.create(newMusic)
         Ok("File uploaded")
     }
