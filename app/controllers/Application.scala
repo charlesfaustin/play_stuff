@@ -11,6 +11,7 @@ import play.api.mvc.{Controller, Action, WebSocket}
 import play.filters.csrf._
 import models._
 import actors._
+import s3._
 import play.api.libs.concurrent.Akka
 import play.api.Play.current
 import akka.actor.Props
@@ -100,27 +101,21 @@ object Application extends Controller {
         //unix gets funny with empty spaces
         val localFilename = file.filename.replace(" ","_").replace("'","")
 
-        //duplication of strings, tidy up into a reusable val
-        file.ref.moveTo(new File(s"/Users/Charles/seven/hey/public/up/$localFilename"))
+
+        file.ref.moveTo(new File(s3helper.placeToMoveFile + s"$localFilename"))
         val filenames = java.util.UUID.randomUUID.toString + ".mp3"
-        val bucketName = "cfgplaytest"
-        val s3region = "eu-west-1"
-        val filePath = "https://s3-%s.amazonaws.com/%s/%s".format(s3region, bucketName, filenames)
-        val newMusic = models.Music(localFilename,  java.util.UUID.randomUUID.toString, filePath) 
+        val filePath = "https://s3-%s.amazonaws.com/%s/%s".format(s3helper.s3region, s3helper.bucketName, filenames)
 
-        val AWS_ACCESS_KEY = ""
-        val AWS_SECRET_KEY = ""
-        //MOVE AWS CREDENTIALS INTO SCALA FILE OUTSIDE OF SOURCE CONTROL
+        val newMusic = models.Music(localFilename,  java.util.UUID.randomUUID.toString, filePath)
 
-        val yourAWSCredentials = new BasicAWSCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY)
-        val amazonS3Client = new AmazonS3Client(yourAWSCredentials)
         //http://havecamerawilltravel.com/photographer/how-allow-public-access-amazon-bucket
 
-        val newFile = new File(s"/Users/Charles/seven/hey/public/up/$localFilename")
-        amazonS3Client.putObject(bucketName, filenames, newFile)
+        val newFile = new File(s3helper.placeToMoveFile + s"$localFilename")
+        s3helper.amazonS3Client.putObject(s3helper.bucketName, filenames, newFile)
 
 
         val id = models.Music.create(newMusic)
+        //code to delete moved localfile
         Ok("File uploaded")
     }
 
