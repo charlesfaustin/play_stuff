@@ -61,8 +61,6 @@ object Application extends Controller {
 
 
 
-
-
   def serve(idString: String) = Action {
 
     val artist = XDB.query[CrtdFile].whereEqual("idstring", idString).fetchOne().get
@@ -82,40 +80,27 @@ object Application extends Controller {
       Action(parse.multipartFormData) { implicit request =>
   
         request.body.file("fileUpload").map { file =>
+        
+        val localFilename = s3helper.fileRename(file.filename)
+        val newFilePath = s3helper.placeToMoveFile + localFilename
+        file.ref.moveTo(new File(newFilePath))
 
-        /*  turn this into an aws object thatll be imported
-            there will be global aws setting veriables, then a function that takes the file,
-            and uploads it. much neater.
-
-            also, separate functions to move files, global variable as the folder path to
-            move them to. compose this into different sensible functions.
-
-            The local filemove func will be in a separate object
-
-            diff buckets for initial uploads and combined uploads, function will take vars to put files
-            in appropiate bucket
-
-            MOVE AWS CREDENTIALS INTO SCALA FILE OUTSIDE OF SOURCE CONTROL
-        */
-
-        //unix gets funny with empty spaces
-        val localFilename = file.filename.replace(" ","_").replace("'","")
-
-
-        file.ref.moveTo(new File(s3helper.placeToMoveFile + s"$localFilename"))
         val filenames = java.util.UUID.randomUUID.toString + ".mp3"
-        val filePath = "https://s3-%s.amazonaws.com/%s/%s".format(s3helper.s3region, s3helper.bucketName, filenames)
+        val s3filePath = "https://s3-%s.amazonaws.com/%s/%s".format(s3helper.s3region, s3helper.bucketName, filenames)
 
-        val newMusic = models.Music(localFilename,  java.util.UUID.randomUUID.toString, filePath)
+        val newMusic = models.Music(localFilename,  java.util.UUID.randomUUID.toString, s3filePath)
 
         //http://havecamerawilltravel.com/photographer/how-allow-public-access-amazon-bucket
 
-        val newFile = new File(s3helper.placeToMoveFile + s"$localFilename")
+        val newFile = new File(newFilePath)
         s3helper.amazonS3Client.putObject(s3helper.bucketName, filenames, newFile)
 
-
         val id = models.Music.create(newMusic)
-        //code to delete moved localfile
+        
+        //delete moved localfile
+        val shellCmd=  s"rm $newFilePath"
+        val output = shellCmd.!
+
         Ok("File uploaded")
     }
 

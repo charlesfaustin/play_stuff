@@ -16,5 +16,10 @@ object s3helper {
   val yourAWSCredentials = new BasicAWSCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY)
   val amazonS3Client = new AmazonS3Client(yourAWSCredentials)
 
+  def fileRename(filename:String):String = filename.replace(" ","_").replace("'","")
+
+  
+
 
 }
+
