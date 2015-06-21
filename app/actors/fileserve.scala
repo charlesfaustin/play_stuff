@@ -13,6 +13,8 @@ import akka.actor.Props
 import play.api.libs.json._
 import scala.collection.mutable.ListBuffer
 
+import scala.concurrent._
+
 case class Message(msg: String)
 
 
@@ -53,7 +55,18 @@ class FileServeActor extends Actor {
         
 	 
 
-          }
+  }
+  case newServeMessage(songList) => {
+    println("new serve message")
+    val x = songList.map(i => XDB.query[Music].whereEqual("idstring", i).fetchOne().get )
+
+    val y = x.toList.map(i => Future { i.filepath})
+
+    val after = for {
+      bah <- y
+    } println(bah)
+
+  }
 	case _ =>
       println("que?")
       
@@ -90,7 +103,8 @@ object MyWebSocketActor{
       case jsonstring: String =>
         val json: JsValue = Json.parse(jsonstring)
         val buf = (json \ "music" \\ "song").map(_.as[String])
-        FileActor ! ServeMessage(buf)
+        //FileActor ! ServeMessage(buf)
+        FileActor ! newServeMessage(buf)
 
       case _ =>
         println("ok")
@@ -100,7 +114,7 @@ object MyWebSocketActor{
 
   }
 
-
+case class newServeMessage(tunes: Seq[String])
 case class ServeMessage(tunes: Seq[String])
 case class DoneMessage(msg: String)
 case object NoFilesMessage

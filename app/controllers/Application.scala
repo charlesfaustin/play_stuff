@@ -16,29 +16,8 @@ import play.api.libs.concurrent.Akka
 import play.api.Play.current
 import akka.actor.Props
 
-//sort by func for scala
-/*
-scala> List("a", "fg", "aaa", "e", "wwwwww").sortBy(r => r.length)
-res18: List[String] = List(a, e, fg, aaa, wwwwww)
-*/
-
-//concantenate strings for cat command
-/*
-theStrings.mkString(" plus whatever inbetween")
-tail object wont have anything after than
-look here too http://langref.org/scala/lists/output/join-the-elements-of-a-list-separated-by-commas
-*/
-
-
-//remove all tags, install with pip install eyeD3
-/*
- eyeD3 --remove-all  a.mp3
-*/
 
 object Application extends Controller {
-
-
-
 
   def index =  CSRFAddToken  {
 
@@ -81,10 +60,12 @@ object Application extends Controller {
   
         request.body.file("fileUpload").map { file =>
         
+        //the three lines below can be put into a single function
         val localFilename = s3helper.fileRename(file.filename)
         val newFilePath = s3helper.placeToMoveFile + localFilename
         file.ref.moveTo(new File(newFilePath))
 
+        //the two lines below will have to be abstracted when i do the fileserve code
         val filenames = java.util.UUID.randomUUID.toString + ".mp3"
         val s3filePath = "https://s3-%s.amazonaws.com/%s/%s".format(s3helper.s3region, s3helper.bucketName, filenames)
 
@@ -97,7 +78,7 @@ object Application extends Controller {
 
         val id = models.Music.create(newMusic)
         
-        //delete moved localfile
+        //delete moved localfile, put this into the fileserve actor, when youre done with sorting the initial upload code
         val shellCmd=  s"rm $newFilePath"
         val output = shellCmd.!
 
