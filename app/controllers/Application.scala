@@ -66,15 +66,15 @@ object Application extends Controller {
         file.ref.moveTo(new File(newFilePath))
 
         //the two lines below will have to be abstracted when i do the fileserve code
-        val filenames = java.util.UUID.randomUUID.toString + ".mp3"
-        val s3filePath = "https://s3-%s.amazonaws.com/%s/%s".format(s3helper.s3region, s3helper.bucketName, filenames)
+        val objectKey = java.util.UUID.randomUUID.toString + ".mp3"
+        val s3filePath = "https://s3-%s.amazonaws.com/%s/%s".format(s3helper.s3region, s3helper.bucketName, objectKey)
 
-        val newMusic = models.Music(localFilename,  java.util.UUID.randomUUID.toString, s3filePath)
+        val newMusic = models.Music(filename=localFilename,  idstring=java.util.UUID.randomUUID.toString, filepath=s3filePath, objkey=objectKey)
 
         //http://havecamerawilltravel.com/photographer/how-allow-public-access-amazon-bucket
 
         val newFile = new File(newFilePath)
-        s3helper.amazonS3Client.putObject(s3helper.bucketName, filenames, newFile)
+        s3helper.amazonS3Client.putObject(s3helper.bucketName, objectKey, newFile)
 
         val id = models.Music.create(newMusic)
         

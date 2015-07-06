@@ -15,3 +15,5 @@ dist
 /.settings
 public/crtd
 public/up
+public/utils
+

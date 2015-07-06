@@ -50,6 +50,10 @@
 
 <div class="centering">
 
+<br></br>
+<a class="btn" onclick="myFunction2()">Click me to generate files</a>
+
+
 <form style="padding-top:20px" method="post" autocomplete="on" enctype="multipart/form-data">
  @CSRF.formField
       
@@ -62,32 +66,36 @@
 
 <br></br>
 
-<a class="btn" onclick="myFunction2()">Click me to generate files</a>
+
 
 </div>
 
 
 
 
-<div class="container centering" style="margin-top: 70px;">
+<div class="container centering">
 
 
-    <div id="advanced" style="margin-left: 30px;">
+
+    <div id="advanced">
           
 
-          <div style="width: 40%; float: left; margin-top: 15px; margin-left: 10px">
+          <div class="box-section ">
             <div><div data-force="5" class="layer title title_xl">Files to be created</div></div>
             <div class="block__list-title" style="margin-top:10px">drag here & order</div>
-              <ul id="advanced-1"  class="files" style="float:left; width:95%">
+              <ul id="advanced-1"  class="files">
                
          
               </ul>
             </div>
           </div>
 
+<br></br>
 
 
-          <div style="width: 40%; float: left; margin-top: 15px; margin-left: 10px" >
+
+
+          <div class="box-section" >
             <div><div data-force="5" class="layer title title_xl">Uploaded Files</div></div>
             <div class="block__list-title" style="margin-top:10px">drag from here</div>
               <ul id="advanced-2" class="files">
@@ -102,6 +110,10 @@
           <div style="clear: both"></div>
     </div>
 </div>
+
+<div class="centering">
+
+<a class="btn" onclick="myFunction2()">Click me to generate files</a> </div>
 
        <div class="centering" style="font-family: 'Fjalla One', sans-serif;font-size: 80px; color:#FFF"> CREATED FILES</div>
         <ul style="padding-left:30px" id="advanced-3">

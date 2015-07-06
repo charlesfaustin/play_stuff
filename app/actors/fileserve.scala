@@ -6,14 +6,22 @@ import scala.concurrent.duration._
 import play.api.libs.concurrent.Execution.Implicits._
 import models._
 import java.io.File
+import java.io.FileOutputStream
 import sys.process._
 import play.api.libs.concurrent.Akka
 import play.api.Play.current
 import akka.actor.Props
 import play.api.libs.json._
 import scala.collection.mutable.ListBuffer
-
 import scala.concurrent._
+
+import org.apache.commons.io.IOUtils
+
+import sys.process._
+import java.net.URL
+import java.io.File
+import java.util.concurrent.atomic.AtomicInteger
+import s3._
 
 case class Message(msg: String)
 
@@ -60,11 +68,46 @@ class FileServeActor extends Actor {
     println("new serve message")
     val x = songList.map(i => XDB.query[Music].whereEqual("idstring", i).fetchOne().get )
 
-    val y = x.toList.map(i => Future { i.filepath})
+    //download mp3 files here
+    //http://alvinalexander.com/scala/scala-how-to-download-url-contents-to-string-file
+    //import scala.concurrent.impl.Promise.DefaultPromise
 
-    val after = for {
-      bah <- y
-    } println(bah)
+    /*
+    http://docs.scala-lang.org/overviews/core/futures.html
+    http://alvinalexander.com/scala/concurrency-with-scala-futures-tutorials-examples
+    http://stackoverflow.com/a/16257414
+    http://alvinalexander.com/scala/scala-how-to-download-url-contents-to-string-file
+
+
+    */
+    val y = x.toList.map(i => Future { IOUtils.copy(s3helper.amazonS3Client.getObject(s3helper.bucketName, i.objkey).getObjectContent(), new FileOutputStream(new File("/Users/Charles/seven/hey/public/utils/" + i.objkey)))  })
+
+     //val df = s3helper.amazonS3Client.getObject(s3helper.bucketName, objkey)
+
+     //IOUtils.copy(s3helper.amazonS3Client.getObject(s3helper.bucketName, objkey).getObjectContent(), new FileOutputStream(new File("/Users/Charles/seven/hey/public/utils/" + objkey)));
+
+
+    //do procedurally before turning into function
+
+    val uu = s3helper.allSucceed(y)
+
+    uu onSuccess {
+
+      case bloopp => {
+        val filex = x.toList.map(i => "/Users/Charles/seven/hey/public/utils/" + i.objkey).mkString(" ")
+        println(filex)
+
+
+      }
+
+    }
+
+    uu onFailure {
+      case gg => println("xxxxxx")
+    }
+
+
+
 
   }
 	case _ =>
