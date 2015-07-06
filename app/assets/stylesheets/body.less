@@ -1,0 +1,51 @@
+@body-pad-top: 50px;
+@ms-webkit-gradient-direction: bottom;
+@gradient-direction: to bottom;
+@gradient-color-1: #F4E2C9 20%;
+@gradient-color-2: #F4D7C9 100%;
+
+@no-margin: 0em;
+@no-padding: 0em;
+@body-colour: #464637;
+@body-min-height: 100%;
+@body-font-size: 1.250em;
+@body-font: 'Roboto', sans-serif;
+@body-font-weight: 300;
+@body-width:100%;
+
+
+.background-colour-mixin() {
+  background-image: -webkit-linear-gradient(@ms-webkit-gradient-direction, @gradient-color-1, @gradient-color-2);
+  background-image: -ms-linear-gradient(@ms-webkit-gradient-direction, @gradient-color-1, @gradient-color-2);
+  background-image: linear-gradient(@gradient-direction, @gradient-color-1, @gradient-color-2);  
+}
+
+.top-padding-mixin(){
+  padding-top:@body-pad-top;
+}
+
+
+.html-body-mixin(){
+  margin: @no-margin;
+  padding: @no-padding;
+  color: @body-colour;
+  min-height: @body-min-height;
+  font-size: @body-font-size;
+  font-family: @body-font;
+  font-weight: @body-font-weight;
+  width:@body-width;
+}
+
+
+
+html {
+   .background-colour-mixin;
+   .html-body-mixin;
+}
+
+body{
+  .top-padding-mixin;
+  .html-body-mixin;
+
+}
+

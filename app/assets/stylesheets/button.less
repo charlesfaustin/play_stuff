@@ -1,0 +1,59 @@
+@mobile-max:450px;
+
+@btn-background: #3498db;
+@btn-vendor-gradient-direction: top;
+@btn-gradient-direction: to bottom;
+@btn-gradient-color-1: #3498db;
+@btn-gradient-color-2: #2980b9;
+@btn-colour: #ffffff;
+@btn-border-radius: 1.75em;
+@btn-font-family: Arial;
+@btn-font-size: 1.250em;
+@btn-mobile-font-size:0.5em;
+@btn-padding: 10px 20px 10px 20px;
+@btn-text-decoration: none;
+@btn-hover-background: #3cb0fd;
+
+.btn-colour-mixin(){
+  background: @btn-background;
+  background-image: -webkit-linear-gradient(@btn-vendor-gradient-direction, @btn-gradient-color-1, @btn-gradient-color-2);
+  background-image: -moz-linear-gradient(@btn-vendor-gradient-direction, @btn-gradient-color-1, @btn-gradient-color-2);
+  background-image: -ms-linear-gradient(@btn-vendor-gradient-direction, @btn-gradient-color-1, @btn-gradient-color-2);
+  background-image: -o-linear-gradient(@btn-vendor-gradient-direction, @btn-gradient-color-1, @btn-gradient-color-2);
+  background-image: linear-gradient(@gradient-direction, @btn-gradient-color-1, @btn-gradient-color-2);
+  color: @btn-colour;
+  
+}
+
+.btn-styling-mixin(){
+  -webkit-border-radius: @btn-border-radius;
+  -moz-border-radius: @btn-border-radius;
+  border-radius: @btn-border-radius;
+  font-family: @btn-font-family;
+  font-size: @btn-font-size;
+  @media (max-width: @mobile-max) {
+      font-size: @btn-mobile-font-size;
+    }
+  padding: @btn-padding;
+  text-decoration: @btn-text-decoration;
+  
+}
+
+.btn-hover-mixin(){
+  background: @btn-hover-background;
+  background-image: -webkit-linear-gradient(@btn-vendor-gradient-direction, @btn-hover-background, @btn-background);
+  background-image: -moz-linear-gradient(@btn-vendor-gradient-direction, @btn-hover-background, @btn-background);
+  background-image: -ms-linear-gradient(@btn-vendor-gradient-direction, @btn-hover-background, @btn-background);
+  background-image: -o-linear-gradient(@btn-vendor-gradient-direction, @btn-hover-background, @btn-background);
+  background-image: linear-gradient(@btn-gradient-direction, @btn-hover-background, @btn-background);
+  text-decoration: @btn-text-decoration; 
+}
+
+.btn {
+  .btn-colour-mixin;
+  .btn-styling-mixin;
+}
+
+.btn:hover {
+  .btn-hover-mixin;
+}

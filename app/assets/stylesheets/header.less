@@ -1,0 +1,30 @@
+@header-width: 100%;
+@header-position: fixed;
+@header-top: 0em;
+@header-color: #FFF;
+@header-background-color: #FF7373;
+@header-height: 0.313em;
+@hidethis-display: none;
+
+.hidethis-mixin(){
+	display: @hidethis-display;
+}
+
+.header-mixin(){
+    width: @header-width;
+    position: @header-position;
+    top: @header-top;
+    color: @header-color;
+    background-color: @header-background-color;
+    height:@header-height;
+}
+
+.header-cont {
+    .header-mixin;
+}
+
+
+
+.hidethis{
+  .hidethis-mixin;
+}

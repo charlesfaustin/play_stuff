@@ -1,0 +1,76 @@
+@tablet-max: 768px;
+
+@tagline-vert-align: top;
+@tagline-display: inline-block;
+@tagline-txt-align: center;
+@tagline-width: 7.5em;
+@caption-display: block;
+@centering-text-align: center;
+@centering-pad-top: 1em;
+
+
+@h1-color: #FF3F00;
+@h1-font-size: 1.250em;
+@h1-font-family: 'Roboto', sans-serif;
+@h1-font-weight: 300;
+@h1-text-align: center;
+
+@img-border: 0;
+@img-vertical-align: middle;
+@tagline-fullsize-width: 100%;
+
+
+.tagline-mixin(){
+    vertical-align: @tagline-vert-align;
+    display: @tagline-display;
+    text-align: @tagline-txt-align;
+    width: @tagline-width;  
+    @media (max-width: @tablet-max) {
+      width: @tagline-fullsize-width;
+    }
+}
+
+.caption-mixin(){
+    display: @caption-display;
+}
+
+.centering-mixin(){
+    text-align: @centering-text-align;
+    padding-top: @centering-pad-top;  
+}
+
+.h1-mixin(){
+  color: @h1-color;
+  font-size: @h1-font-size;
+  font-family: @h1-font-family;
+  font-weight: @h1-font-weight;
+  text-align: @h1-text-align;
+}
+
+.img-mixin(){
+  border: @img-border;
+  vertical-align: @img-vertical-align;
+}
+
+div.tagline {
+    .tagline-mixin;
+}
+
+.caption {
+  .caption-mixin;
+}
+
+.centering{
+    .centering-mixin;
+}
+
+
+
+h1 {
+    .h1-mixin;
+}
+
+img {
+  border: @img-border;
+  vertical-align: @img-vertical-align;
+}
