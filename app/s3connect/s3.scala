@@ -12,8 +12,8 @@ object s3helper {
   val s3region = "eu-west-1"
 
   //MOVE AWS CREDENTIALS INTO SCALA FILE OUTSIDE OF SOURCE CONTROL
-  val AWS_ACCESS_KEY = "AKIAICKOSXK6BQ6F7C4A"
-  val AWS_SECRET_KEY = "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"
+  val AWS_ACCESS_KEY = ""
+  val AWS_SECRET_KEY = ""
   //maybe put the below into own object, use in function
   val placeToMoveFile = "/Users/Charles/seven/hey/public/up/"
 

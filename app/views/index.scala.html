@@ -142,7 +142,7 @@ function WebSocketStart()
         var obj = JSON.parse(evt.data);
         if(obj.hasOwnProperty('filename')){
             console.log('yhhhh');
-            $("#advanced-3").append($("<audio controls>").append($("<source src=/assets/crtd/" + obj.filename + " >")));         
+            $("#advanced-3").append($("<audio controls>").append($("<source src=" + obj.filename + " >")));         
         }
     };
 

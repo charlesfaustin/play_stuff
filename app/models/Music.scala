@@ -16,7 +16,7 @@ object Music {
 }
 
 
-case class CrtdFile(filename: String,  idstring: String, filepath: String)
+case class CrtdFile(filename: String,  idstring: String, filepath: String, objkey: String)
 
 object CrtdFile {
 
