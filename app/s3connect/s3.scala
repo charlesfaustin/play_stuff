@@ -6,6 +6,7 @@ import scala.util.{Success, Failure}
 import scala.concurrent._
 import java.util.concurrent.atomic.AtomicInteger
 import play.api.libs.concurrent.Execution.Implicits._
+import play.api.Play.current
 
 object s3helper {
   val bucketName = "cfgplaytest"
@@ -15,7 +16,8 @@ object s3helper {
   val AWS_ACCESS_KEY = ""
   val AWS_SECRET_KEY = ""
   //maybe put the below into own object, use in function
-  val placeToMoveFile = "/Users/Charles/seven/hey/public/up/"
+  val placeToMoveFile= current.path + "/public/up/"
+  //val placeToMoveFile = "/Users/Charles/seven/hey/public/up/"
 
   val yourAWSCredentials = new BasicAWSCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY)
   val amazonS3Client = new AmazonS3Client(yourAWSCredentials)

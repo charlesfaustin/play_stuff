@@ -25,7 +25,13 @@ import s3._
 
 case class Message(msg: String)
 
+/*https://www.digitalocean.com/community/tutorials/how-to-set-up-http-authentication-with-nginx-on-ubuntu-12-10
+NGINX PASSWORD ACCESS FOR HTTP
 
+
+https://www.playframework.com/documentation/2.3.x/Production
+HOW TO DEPLOY IN PRODUCTION
+*/
 class FileServeActor extends Actor {
 
   def receive = {
@@ -33,7 +39,7 @@ class FileServeActor extends Actor {
     case newServeMessage(songList) => {
       println("new serve message")
       val x = songList.map(i => XDB.query[Music].whereEqual("idstring", i).fetchOne().get )
-      val y = x.toList.map(i => Future { IOUtils.copy(s3helper.amazonS3Client.getObject(s3helper.bucketName, i.objkey).getObjectContent(), new FileOutputStream(new File("/Users/Charles/seven/hey/public/utils/" + i.objkey)))  })
+      val y = x.toList.map(i => Future { IOUtils.copy(s3helper.amazonS3Client.getObject(s3helper.bucketName, i.objkey).getObjectContent(), new FileOutputStream(new File(current.path + "/public/utils/" + i.objkey)))  })
 
       val newSender = sender
       val uu = s3helper.allSucceed(y)
@@ -45,17 +51,19 @@ class FileServeActor extends Actor {
       uu onSuccess {
 
         case bloopp => {
-          val filex = x.toList.map(i => "/Users/Charles/seven/hey/public/utils/" + i.objkey).mkString(" ")
+          val filex = x.toList.map(i => current.path + "/public/utils/" + i.objkey).mkString(" ")
           val fileUuid = java.util.UUID.randomUUID.toString
-          val shellCmd=  s"sox $filex  /Users/Charles/seven/hey/public/crtd/$fileUuid.mp3"
+          val shellCmd=  "sox %s  %s/public/crtd/%s.mp3".format(filex, current.path, fileUuid )
           val output = shellCmd.!
-          val c = new java.io.File(s"/Users/Charles/seven/hey/public/crtd/$fileUuid.mp3")
+          val newFilePath = s"%s/public/crtd/%s.mp3".format(current.path, fileUuid)
+          val c = new java.io.File(newFilePath)
           val createdFile = models.CrtdFile(filename = s"$fileUuid.mp3",  idstring = fileUuid, filepath = s3filePath, objkey= objectKey)
           s3helper.amazonS3Client.putObject(s3helper.bucketName , "combined/"+ objectKey, c)
-          val id = models.CrtdFile.create(createdFile)
-        
-          //newSender ! DoneMessage(s""" { "filename" : "$s3filePath" }""")
 
+          val id = models.CrtdFile.create(createdFile)
+          val shellCmd2=  s"rm $newFilePath"
+          val output2 = shellCmd2.!
+        
           println("done")
 
 
