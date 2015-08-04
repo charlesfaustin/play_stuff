@@ -16,4 +16,4 @@ dist
 public/crtd
 public/up
 public/utils
-
+*.pyc
