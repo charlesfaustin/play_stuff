@@ -67,7 +67,7 @@ def clean():
 
 
 
-def compile():
+def code_compile():
     run('cd %s && activator compile' % repo_root)
 
 
@@ -76,14 +76,14 @@ def runserver():
 
 
 def stage():
-    run('cd %s && activator clean stage' % repo_root)
+    run('cd %s && activator clean compile stage' % repo_root)
 
 
 
 def make_logs():
     run("touch /home/ubuntu/play_app.log")
-    sudo("touch /home/ubuntu/nginx-access.log")
-    sudo("touch /home/ubuntu/nginx-error.log")
+    run("touch /home/ubuntu/nginx-access.log")
+    run("touch /home/ubuntu/nginx-error.log")
 
 
 def nginx_conf():
@@ -95,6 +95,9 @@ def nginx_conf():
     sudo("ln -s /etc/nginx/sites-available/slyck /etc/nginx/sites-enabled/slyck")
 
 
+def prod_run():
+    run(' %s/target/universal/stage/bin/hey' %repo_root)
+
 def supervisor_conf():
     sudo("cp %s /etc/supervisor/conf.d" % (repo_root + '/deploy/slyck.conf'))
 
@@ -104,7 +107,7 @@ def nginx_restart():
 
 
 def app_restart():
-    sudo("supervisorctl restart testapp")
+    sudo("supervisorctl restart slyck")
 
 
 def initial_install():
@@ -114,6 +117,13 @@ def initial_install():
     install_activator()
     clone()
     pull()
+    stage()
+    nginx_conf()
+    supervisor_conf()
+    update_supervisor()
+    app_restart()
+    nginx_restart()
+
 
 
 
