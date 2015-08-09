@@ -18,6 +18,10 @@ libraryDependencies += jdbc
 
 libraryDependencies += "org.apache.commons" % "commons-io" % "1.3.2"
 
+libraryDependencies += "org.postgresql" % "postgresql" % "9.3-1103-jdbc4"
+
+
+
 
 
 

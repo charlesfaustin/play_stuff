@@ -6,7 +6,7 @@ env.user = 'ubuntu'
 env.key_filename = ['~/.ssh/chefbox.pem']
 
 
-env.hosts = ['52.18.71.70']
+env.hosts = ['52.18.159.108']
 project_root = "~/"
 
 
