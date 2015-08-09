@@ -15,6 +15,9 @@ object Global extends GlobalSettings {
     Logger.info("xxxxxxApplication shutdown...")
   }  
 
+  override def onError(request: RequestHeader, ex: Throwable) = {
+      println("error")
+  }
 
 }
 

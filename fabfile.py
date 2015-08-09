@@ -35,7 +35,7 @@ def restart_ngninx():
 
 
 def os_packages():
-    sudo('apt-get install -y openjdk-7-jdk  sox libsox-fmt-mp3 unzip git supervisor nginx', pty=True)
+    sudo('apt-get install -y openjdk-7-jdk  sox libsox-fmt-mp3 unzip git supervisor nginx postgresql postgresql-contrib', pty=True)
     run('echo "deb http://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list')
     sudo('apt-get update')
     sudo('apt-get install -y  sbt  --force-yes')
@@ -54,6 +54,7 @@ def clone():
     run('cd ~/')
     run('git clone https://github.com/charlesfaustin/play_stuff.git')
     run('cd play_stuff/ && git checkout music')
+
 
 
 
@@ -77,7 +78,7 @@ def runserver():
 
 def stage():
     run('cd %s && activator clean compile stage' % repo_root)
-
+    other_path()
 
 
 def make_logs():
@@ -108,6 +109,10 @@ def nginx_restart():
 
 def app_restart():
     sudo("supervisorctl restart slyck")
+
+
+def other_path():
+    run('mkdir -p /home/ubuntu/play_stuff/target/universal/stage/public/up/')
 
 
 def initial_install():
