@@ -114,6 +114,8 @@ def app_restart():
 
 def other_path():
     run('mkdir -p /home/ubuntu/play_stuff/target/universal/stage/public/up/')
+    run('mkdir -p /home/ubuntu/play_stuff/target/universal/stage/public/utils/')
+    run('mkdir -p /home/ubuntu/play_stuff/target/universal/stage/public/crtd/')
 
 
 def initial_install():
