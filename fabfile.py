@@ -79,6 +79,7 @@ def runserver():
 def stage():
     run('cd %s && activator clean compile stage' % repo_root)
     other_path()
+    app_restart()
 
 
 def make_logs():
