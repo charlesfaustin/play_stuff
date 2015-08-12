@@ -71,15 +71,24 @@ def clean():
 def code_compile():
     run('cd %s && activator compile' % repo_root)
 
+def restart():
+    sudo("supervisorctl restart slyck")
+
+def stop():
+    sudo("supervisorctl stop slyck")
+
+def start():
+    sudo("supervisorctl start slyck")
 
 def runserver():
     run('cd %s && activator run' % repo_root)
 
 
 def stage():
+    stop()
     run('cd %s && activator clean compile stage' % repo_root)
     other_path()
-    app_restart()
+    start()
 
 
 def make_logs():
@@ -107,9 +116,6 @@ def supervisor_conf():
 def nginx_restart():
     sudo('service nginx restart')
 
-
-def app_restart():
-    sudo("supervisorctl restart slyck")
 
 
 def other_path():
