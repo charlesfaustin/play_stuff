@@ -15,12 +15,14 @@ object Global extends GlobalSettings {
     Logger.info("xxxxxxApplication shutdown...")
   }  
 
-  override def onError(request: RequestHeader, ex: Throwable) = {
+  // found   : Unit ,  required: scala.concurrent.Future[play.api.mvc.Result]
+
+  /*override def onError(request: RequestHeader, ex: Throwable) = {
       println("error")
 
       Logger.info("some error...")
 
-  }
+  } */ 
 
 }
 
