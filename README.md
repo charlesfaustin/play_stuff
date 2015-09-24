@@ -1,3 +1,5 @@
-# Getting started with Play (Scala)
+# Music processing app
 
-This project demonstrate how to create a simple CRUD application with Play. A screencast to the project exist on [playframework.com](http://playframework.com)
+Music processing app, written in Scala using the play framework
+
+The bulk of the work is in the 'musics' branch, this repo was cloned and adapted from a simple crud app from the typesafe website
